@@ -4,11 +4,11 @@ import os
 
 from Pages.homeworkbot import api_key
 
-all models = ["gemini-3.0-flash",
+all_models = ["gemini-3.0-flash",
               "gemini-2.5-flash",
               "gemini-2.0-flash",
               "gemini-2.5-flash-lite",
-              "emini-2.0-flash-lite"]
+              "gemini-2.0-flash-lite"]
 
 def createClient():
     st.session_state.client = genai.Client(api_key=loadAPIKey())
@@ -22,7 +22,13 @@ def senfMassage(text,history=[]):
             chat = client.chat.create(
                 model = model,
             )
-        except:
+
+            ai = chat.send_message(text)
+            print(ai.text)
+
+        except Exception as e:
+            error = str(e)
+            print (e)
             print(f"{model} not working...")
 
 def loadAPIKey():
