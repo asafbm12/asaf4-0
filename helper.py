@@ -4,7 +4,15 @@ import os
 from google import genai
 from google.genai import types
 import time
-#from Pages.homeworkbot import api_key
+from ddgs import DDGS
+
+def web_search(query : str) -> []:
+    print("search: "+ query)
+
+    with st.status("serch: "+ query):
+        with DDGS() as d:
+            results = d.text(query,region="he-il", max_results=3)
+            return results
 
 def current_time() -> str:
     """
@@ -32,9 +40,13 @@ def createClient():
     st.session_state.client = genai.Client(api_key=loadAPIKey())
 
 # שליחת הודעה לכל המודלים
-def sendMassage(text,system_prompt,history=[]):
+def sendMassage(text,system_prompt,history=[],image=None):
     if 'client' not in st.session_state:
         createClient()
+
+    content = [text]
+    if image:
+        content.append(image)
     for model in all_models:
         client = st.session_state.client
         try:
@@ -42,10 +54,12 @@ def sendMassage(text,system_prompt,history=[]):
                 model=model,
                 history=history,
                 config = types.GenerateContentConfig(
-                    system_instruction = system_prompt
+                    system_instruction = system_prompt,
+                    tools = [current_time],
+                    automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=False)
                 )
             )
-            ai = chat.send_message(text)
+            ai = chat.send_message(content)
             return ai.text
 
         except Exception as e:
