@@ -2,6 +2,9 @@ import os
 from dotenv import load_dotenv
 from google import genai
 import streamlit as st
+from helper import *
+
+
 
 st.title("הצ'אט שלי")
 
@@ -12,6 +15,7 @@ st.set_page_config(
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
+API_KEY = loadAPIKey()
 
 gemini = genai.Client(api_key=API_KEY)
 
