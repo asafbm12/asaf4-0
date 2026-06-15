@@ -52,7 +52,7 @@ def sendMassage(text,system_prompt,history=[],image=None):
         try:
             chat = client.chats.create(
                 model=model,
-                history=history,j
+                history=history,
                 config = types.GenerateContentConfig(
                     system_instruction = system_prompt,
                     tools = [current_time],
