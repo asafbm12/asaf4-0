@@ -30,7 +30,7 @@ def send(promt):
 
     saveToHistory("user",promt)
 
-    all_models = ["gemini-2.5-flash","gemini-2.0-flash","gemini-2.5-flash-lite","emini-2.0-flash-lite"]
+    all_models = ["gemini-3.5-flash","gemini-3.1-flash-lite","gemini-2.5-flash","gemini-2.5-flash-lite"]
 
     context = ""
     for line in st.session_state.history:
@@ -47,7 +47,7 @@ def send(promt):
         except:
             print(f"לא עובד - מנסה את המודל הבא מודל{model}")
 
-chat = gemini.chats.create(model="gemini-2.5-flash")
+chat = gemini.chats.create(model="gemini-3.5-flash")
 
 prompt = """
         אתה צב נינג'ה
